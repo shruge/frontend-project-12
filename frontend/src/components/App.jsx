@@ -3,27 +3,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../router/PrivateRoute';
 import { setAuthData } from '../store/slices/authSlice';
+import { getChannels } from '../store/slices/channelsSlice';
 import AuthForm from './AuthForm';
+import Chat from './Chat';
+import NavBar from './NavBar';
 import NotFound from './NotFound';
 import './styles/App.css';
 
 const App = () => {
-  const authToken = useSelector((state) => state.auth.token);
+  const authToken = useSelector((state) => state.authData.token);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem('JWT');
-    const username = localStorage.getItem('username');
+    const { token, username } = JSON.parse(localStorage.getItem('user')) || {};
 
-    if (token && !authToken) dispatch(setAuthData({ username, token }));
+    if (token && !authToken) {
+      dispatch(getChannels(token));
+      dispatch(setAuthData({ username, token }));
+    }
   }, [authToken, dispatch]);
 
   return (
     <div className="d-flex flex-column h-100">
+      <NavBar />
       <BrowserRouter>
         <Routes>
           <Route element={<PrivateRoute />}>
-            <Route path="/" element={<h1>Welcome!</h1>} />
+            <Route path="/" element={<Chat />} />
           </Route>
           <Route path="/login" element={<AuthForm />} />
           <Route path="*" element={<NotFound />} />
