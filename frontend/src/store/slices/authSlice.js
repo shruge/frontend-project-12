@@ -16,12 +16,9 @@ export const getToken = createAsyncThunk(
       const { token, username } = res.data;
 
       localStorage.setItem('user', JSON.stringify({ token, username }));
-      // eslint-disable-next-line no-use-before-define
-      dispatch(setAuthData({ token, username }));
-      // eslint-disable-next-line no-use-before-define
       dispatch(getChannels(token));
 
-      return token;
+      return { token, username };
     } catch (error) {
       return rejectWithValue('Неверные имя пользователя или пароль');
     }
@@ -48,9 +45,15 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getToken.rejected, (state, { payload }) => {
-      state.error = payload;
-    });
+    builder
+      .addCase(getToken.fulfilled, (state, { payload }) => {
+        state.error = null;
+        state.token = payload.token;
+        state.username = payload.username;
+      })
+      .addCase(getToken.rejected, (state, { payload }) => {
+        state.error = payload;
+      });
   },
 });
 
