@@ -26,28 +26,28 @@ export const getChannels = createAsyncThunk(
 
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState: {
-    data: [],
-    currChannel: '',
-    defaultChannel: '',
-  },
+  initialState: [],
   reducers: {
-    setChannel(state, { payload }) {
-      state.currChannel = payload;
+    addChannel(state, { payload }) {
+      state.push(payload);
+    },
+    renameChannel(state, { payload }) {
+      const channel = state.find(({ id }) => id === payload.id);
+
+      channel.name = payload.name;
+    },
+    removeChannel(state, { payload }) {
+      return state.filter(({ id }) => id !== payload.id);
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getChannels.fulfilled, (state, { payload }) => {
-        state.data = payload;
-        state.currChannel = payload[0].id;
-        state.defaultChannel = payload[0].id;
-      })
+      .addCase(getChannels.fulfilled, (_, { payload }) => payload)
       .addCase(getChannels.rejected, (_, { payload }) => {
         console.log(payload, 'channels rej');
       });
   },
 });
 
-export const { setChannel } = channelsSlice.actions;
+export const { addChannel, renameChannel, removeChannel } = channelsSlice.actions;
 export default channelsSlice.reducer;

@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import PrivateRoute from '../router/PrivateRoute';
-import { setAuthData } from '../store/slices/authSlice';
-import { getChannels } from '../store/slices/channelsSlice';
-import AuthForm from './AuthForm';
-import Chat from './Chat';
-import NavBar from './NavBar';
-import NotFound from './NotFound';
-import './styles/App.css';
+import AuthForm from './components/AuthForm';
+import Chat from './components/Chat/Chat';
+import NavBar from './components/NavBar';
+import NotFound from './components/NotFound';
+import PrivateRoute from './router/PrivateRoute';
+import { setAuthData } from './store/slices/authSlice';
+import { getChannels } from './store/slices/channelsSlice';
 
 const App = () => {
   const authToken = useSelector((state) => state.authData.token);
