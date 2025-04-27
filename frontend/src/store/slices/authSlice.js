@@ -1,11 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getChannels } from './channelsSlice';
 
 export const getToken = createAsyncThunk(
   'authData/getToken',
-  async (reqBody, { rejectWithValue, dispatch }) => {
+  async (reqBody, { rejectWithValue }) => {
     try {
       const res = await axios.post('http://localhost:5001/api/v1/login', reqBody, {
         headers: { 'Content-Type': 'application/json' },
@@ -16,7 +15,6 @@ export const getToken = createAsyncThunk(
       const { token, username } = res.data;
 
       localStorage.setItem('user', JSON.stringify({ token, username }));
-      dispatch(getChannels(token));
 
       return { token, username };
     } catch (error) {

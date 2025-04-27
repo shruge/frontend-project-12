@@ -21,14 +21,12 @@ export const getValidateSchema = (key, items) => {
   return schema;
 };
 
-export const findChannelName = (id, channels) => {
+export const getChannelName = (id, channels) => {
   const result = channels.find((channel) => channel.id === id) || 0;
 
   return !result ? '' : result.name;
 };
 
-export const findCount = (id, counts) => {
-  const result = counts.find((messagesCount) => messagesCount.id === id) || 0;
-
-  return !result ? 0 : result[id];
-};
+export const getMessagesCount = (channelId, messages) => (
+  messages.filter((message) => message.channelId === channelId).length
+);

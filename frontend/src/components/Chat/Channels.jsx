@@ -3,12 +3,15 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Button from 'react-bootstrap/esm/Button';
+import { useDispatch } from 'react-redux';
 import { setCurrChannel } from '../../store/slices/globalSlice';
 import { openModal } from '../../store/slices/modalSlice';
 
-const Channels = ({ channels, currChannel, dispatch }) => {
+const Channels = ({ channels, currChannelId }) => {
+  const dispatch = useDispatch();
+
   const setBtnVariant = (id) => (
-    id === currChannel ? 'secondary' : ''
+    id === currChannelId ? 'secondary' : ''
   );
 
   const showModal = () => {
@@ -55,16 +58,6 @@ const Channels = ({ channels, currChannel, dispatch }) => {
     return btn;
   };
 
-  const renderChannels = () => (
-    <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-      {channels.map(({ id, name, removable }) => (
-        <li className="nav-item w-100" key={id}>
-          {createDropBtn(id, name, removable)}
-        </li>
-      ))}
-    </ul>
-  );
-
   return (
     <>
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
@@ -79,7 +72,13 @@ const Channels = ({ channels, currChannel, dispatch }) => {
           <span className="visually-hidden">+</span>
         </Button>
       </div>
-      {renderChannels()}
+      <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+        {channels.length && channels.map(({ id, name, removable }) => (
+          <li className="nav-item w-100" key={id}>
+            {createDropBtn(id, name, removable)}
+          </li>
+        ))}
+      </ul>
     </>
   );
 };

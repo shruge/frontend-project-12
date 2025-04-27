@@ -3,12 +3,13 @@ import { useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { renameChannel } from '../../store/slices/channelsSlice';
+import { useRenameChannelMutation } from '../../store/api/channelsApi';
 
 const RenameModal = ({
-  id, schema, isOpen, dispatch, hideModal, channelName,
+  id, schema, isOpen, hideModal, channelName,
 }) => {
   const inputRef = useRef(null);
+  const [renameChannel, { isLoading }] = useRenameChannelMutation();
   const {
     touched, isValid, values, errors, handleChange, handleSubmit,
   } = useFormik({
@@ -17,8 +18,8 @@ const RenameModal = ({
     },
     validationSchema: schema,
     validateOnChange: false,
-    onSubmit: ({ name }, { resetForm }) => {
-      dispatch(renameChannel({ id, name }));
+    onSubmit: async ({ name }, { resetForm }) => {
+      await renameChannel({ body: { name }, id }).unwrap();
       resetForm();
       hideModal();
     },
@@ -27,6 +28,7 @@ const RenameModal = ({
   useEffect(() => {
     setTimeout(() => {
       inputRef.current?.focus();
+      inputRef.current?.select();
     }, 0);
   }, []);
 
@@ -44,6 +46,7 @@ const RenameModal = ({
               ref={inputRef}
               className="mb-2"
               value={values.name}
+              disabled={isLoading}
               onChange={handleChange}
               isInvalid={touched.name && !isValid}
             />
@@ -51,7 +54,7 @@ const RenameModal = ({
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button type="button" className="me-2" variant="secondary" onClick={hideModal}>Отменить</Button>
-              <Button type="submit">Отправить</Button>
+              <Button type="submit" disabled={isLoading}>Отправить</Button>
             </div>
           </div>
         </Form>

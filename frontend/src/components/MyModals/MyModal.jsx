@@ -1,60 +1,28 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../store/slices/modalSlice';
-import { findChannelName, getValidateSchema } from '../utils';
-import AddModal from './AddModal';
-import RemoveModal from './RemoveModal';
-import RenameModal from './RenameModal';
+import { getChannelName, getValidateSchema, modals } from '../utils';
 
-const MyModal = () => {
+const MyModal = ({ channels }) => {
   const dispatch = useDispatch();
-  const channels = useSelector((state) => state.channels);
   const channelsName = channels.map(({ name }) => name);
   const { mode, isOpen, channelId } = useSelector((state) => state.modal);
-  const channelName = findChannelName(channelId, channels);
+  const channelName = getChannelName(channelId, channels);
+  const schema = getValidateSchema('name', channelsName);
+  const Modal = modals[mode];
 
   const hideModal = () => {
     dispatch(closeModal());
   };
 
-  const renderModal = () => {
-    switch (mode) {
-      case 'remove':
-        return (
-          <RemoveModal
-            id={channelId}
-            isOpen={isOpen}
-            dispatch={dispatch}
-            hideModal={hideModal}
-          />
-        );
-      case 'rename':
-        return (
-          <RenameModal
-            id={channelId}
-            isOpen={isOpen}
-            dispatch={dispatch}
-            hideModal={hideModal}
-            channelName={channelName}
-            schema={getValidateSchema('name', channelsName)}
-          />
-        );
-      case 'add':
-        return (
-          <AddModal
-            isOpen={isOpen}
-            dispatch={dispatch}
-            id={channels.length}
-            hideModal={hideModal}
-            channelName={channelName}
-            schema={getValidateSchema('name', channelsName)}
-          />
-        );
-      default:
-        throw new Error('Unexpected modal type');
-    }
-  };
-
-  return renderModal();
+  return (
+    <Modal
+      id={channelId}
+      schema={schema}
+      isOpen={isOpen}
+      hideModal={hideModal}
+      channelName={channelName}
+    />
+  );
 };
 
 export default MyModal;

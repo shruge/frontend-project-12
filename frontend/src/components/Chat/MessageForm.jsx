@@ -5,35 +5,34 @@ import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/esm/Form';
 import InputGroup from 'react-bootstrap/esm/InputGroup';
 import { useSelector } from 'react-redux';
-import { sendMessage } from '../../store/slices/messagesSlice';
-import { findChannelName } from '../utils';
+import { useAddMessageMutation, useGetMessagesQuery } from '../../store/api/messagesApi';
+import { getChannelName, getMessagesCount } from '../utils';
 
-const MessageForm = ({ channels, currChannel, dispatch }) => {
+const MessageForm = ({ channels, currChannelId }) => {
   const inpRef = useRef(null);
-  const { allMessages } = useSelector((state) => state.messages);
-  const { token, username } = useSelector((state) => state.authData);
+  const { data = [] } = useGetMessagesQuery();
+  const { username } = useSelector((state) => state.authData);
+  const [addMessage] = useAddMessageMutation();
+  const messagesCount = getMessagesCount(currChannelId, data);
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
       body: '',
     },
-    onSubmit: ({ body }, { resetForm }) => {
-      dispatch(sendMessage({
-        msgData: { body, username, channelId: currChannel }, token,
-      })).unwrap().finally(() => {
-        resetForm();
-      });
+    onSubmit: async ({ body }, { resetForm }) => {
+      await addMessage({ body, username, channelId: currChannelId }).unwrap();
+      resetForm();
     },
   });
   const isDisabled = !values.body.trim().length;
 
   useEffect(() => {
     inpRef.current?.focus();
-  }, [currChannel]);
+  }, [currChannelId]);
 
   const renderMessages = () => (
     <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-      {allMessages.map((msg) => (
-        msg.channelId !== currChannel ? null
+      {data.map((msg) => (
+        msg.channelId !== currChannelId ? null
           : (
             <div key={msg.id} className="text-break mb-2">
               <b>{msg.username}</b>
@@ -53,10 +52,14 @@ const MessageForm = ({ channels, currChannel, dispatch }) => {
           <b>
             #
             {' '}
-            {findChannelName(currChannel, channels)}
+            {getChannelName(currChannelId, channels)}
           </b>
         </p>
-        <span className="text-muted">0 сообщений</span>
+        <span className="text-muted">
+          {messagesCount}
+          {' '}
+          сообщений
+        </span>
       </div>
       {renderMessages()}
       <div className="mt-auto px-5 py-3">

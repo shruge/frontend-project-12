@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { addChannel, removeChannel } from './channelsSlice';
+import { channelsApi } from '../api/channelsApi';
 
 const globalSlice = createSlice({
   name: 'global',
@@ -15,10 +15,10 @@ const globalSlice = createSlice({
   },
   extraReducers: (build) => {
     build
-      .addCase(addChannel, (state, { payload }) => {
+      .addMatcher(channelsApi.endpoints.addChannel.matchFulfilled, (state, { payload }) => {
         state.currChannel = payload.id;
       })
-      .addCase(removeChannel, (state, { payload }) => {
+      .addMatcher(channelsApi.endpoints.removeChannel.matchFulfilled, (state, { payload }) => {
         if (state.currChannel === payload.id) { state.currChannel = state.defaultChannel; }
       });
   },

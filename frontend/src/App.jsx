@@ -7,19 +7,15 @@ import NavBar from './components/NavBar';
 import NotFound from './components/NotFound';
 import PrivateRoute from './router/PrivateRoute';
 import { setAuthData } from './store/slices/authSlice';
-import { getChannels } from './store/slices/channelsSlice';
 
 const App = () => {
-  const authToken = useSelector((state) => state.authData.token);
   const dispatch = useDispatch();
+  const authToken = useSelector((state) => state.authData.token);
 
   useEffect(() => {
     const { token, username } = JSON.parse(localStorage.getItem('user')) || {};
 
-    if (token && !authToken) {
-      dispatch(getChannels(token));
-      dispatch(setAuthData({ username, token }));
-    }
+    if (token && !authToken) { dispatch(setAuthData({ username, token })); }
   }, [authToken, dispatch]);
 
   return (

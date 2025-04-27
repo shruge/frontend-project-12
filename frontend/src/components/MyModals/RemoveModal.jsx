@@ -1,12 +1,15 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { removeChannel } from '../../store/slices/channelsSlice';
+import { useRemoveChannelMutation } from '../../store/api/channelsApi';
+import { useRemoveMessageMutation } from '../../store/api/messagesApi';
 
-const RemoveModal = ({
-  id, isOpen, dispatch, hideModal,
-}) => {
-  const delChannel = () => {
-    dispatch(removeChannel({ id }));
+const RemoveModal = ({ id, isOpen, hideModal }) => {
+  const [removeMessage] = useRemoveMessageMutation();
+  const [removeChannel, { isLoading }] = useRemoveChannelMutation();
+
+  const delChannel = async () => {
+    await removeMessage(id);
+    await removeChannel(id).unwrap();
     hideModal();
   };
 
@@ -19,7 +22,7 @@ const RemoveModal = ({
         <p className="lead">Уверены?</p>
         <div className="d-flex justify-content-end">
           <Button type="button" className="me-2" variant="secondary" onClick={hideModal}>Отменить</Button>
-          <Button type="submit" variant="danger" onClick={delChannel}> Удалить</Button>
+          <Button type="submit" variant="danger" onClick={delChannel} disabled={isLoading}>Удалить</Button>
         </div>
       </Modal.Body>
     </Modal>

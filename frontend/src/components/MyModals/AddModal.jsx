@@ -2,11 +2,12 @@ import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { addChannel } from '../../store/slices/channelsSlice';
+import { useAddChannelMutation } from '../../store/api/channelsApi';
 
 const AddModal = ({
-  id, schema, channelName, isOpen, dispatch, hideModal,
+  schema, channelName, isOpen, hideModal,
 }) => {
+  const [addChannel, { isLoading }] = useAddChannelMutation();
   const {
     touched, isValid, values, errors, handleChange, handleSubmit,
   } = useFormik({
@@ -15,8 +16,8 @@ const AddModal = ({
     },
     validationSchema: schema,
     validateOnChange: false,
-    onSubmit: ({ name }, { resetForm }) => {
-      dispatch(addChannel({ id: String(id + 1), name, removable: true }));
+    onSubmit: async ({ name }, { resetForm }) => {
+      await addChannel({ name }).unwrap();
       resetForm();
       hideModal();
     },
@@ -36,6 +37,7 @@ const AddModal = ({
               name="name"
               className="mb-2"
               value={values.name}
+              disabled={isLoading}
               onChange={handleChange}
               isInvalid={touched.name && !isValid}
             />
@@ -43,7 +45,7 @@ const AddModal = ({
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button type="button" className="me-2" variant="secondary" onClick={hideModal}>Отменить</Button>
-              <Button type="submit">Отправить</Button>
+              <Button type="submit" disabled={isLoading}>Отправить</Button>
             </div>
           </div>
         </Form>
