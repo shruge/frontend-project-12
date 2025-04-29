@@ -23,6 +23,29 @@ export const getToken = createAsyncThunk(
   },
 );
 
+export const createUser = createAsyncThunk(
+  'authData/createUser',
+  async (reqBody, { rejectWithValue }) => {
+    try {
+      const res = await axios.post('/api/v1/signup', reqBody, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const { data, statusText } = res;
+      console.log(res);
+      if (statusText !== 'Created') { throw new Error('Пользователь уже существует!!'); }
+
+      localStorage.setItem('user', JSON.stringify({
+        token: data.token, username: data.username,
+      }));
+
+      return data;
+    } catch (error) {
+      return rejectWithValue('Пользователь уже существует!');
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: 'authData',
   initialState: {
@@ -50,6 +73,9 @@ const authSlice = createSlice({
         state.username = payload.username;
       })
       .addCase(getToken.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(createUser.rejected, (state, { payload }) => {
         state.error = payload;
       });
   },

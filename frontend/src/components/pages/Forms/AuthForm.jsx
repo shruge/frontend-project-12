@@ -8,9 +8,9 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import authImg from '../assets/authImg.jpg';
-import { getToken } from '../store/slices/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import authImg from '../../../assets/authImg.jpg';
+import { getToken } from '../../../store/slices/authSlice';
 
 const AuthForm = () => {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ const AuthForm = () => {
       password: '',
       username: '',
     },
+    validateOnChange: false,
     onSubmit: ({ username, password }, { resetForm }) => {
       dispatch(getToken({ username, password }))
         .unwrap()
@@ -79,7 +80,7 @@ const AuthForm = () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>Нет аккаунта? </span>
-                <a href="/signup">Регистрация</a>
+                <Link to="/signup">Регистрация</Link>
               </div>
             </Card.Footer>
           </Card>

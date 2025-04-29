@@ -5,8 +5,8 @@ import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/esm/Form';
 import InputGroup from 'react-bootstrap/esm/InputGroup';
 import { useSelector } from 'react-redux';
-import { useAddMessageMutation, useGetMessagesQuery } from '../../store/api/messagesApi';
-import { getChannelName, getMessagesCount } from '../utils';
+import { useAddMessageMutation, useGetMessagesQuery } from '../../../store/api/messagesApi';
+import { getChannelName, getMessagesCount } from '../../../utils';
 
 const MessageForm = ({ channels, currChannelId }) => {
   const inpRef = useRef(null);

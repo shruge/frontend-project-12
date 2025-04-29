@@ -2,9 +2,9 @@ import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
 import { useSelector } from 'react-redux';
-import { useChatSocket } from '../../socket';
-import { useGetChannelsQuery } from '../../store/api/channelsApi';
-import MyModal from '../MyModals/MyModal';
+import { useChatSocket } from '../../../socket';
+import { useGetChannelsQuery } from '../../../store/api/channelsApi';
+import MyModal from '../../MyModals/MyModal';
 import Channels from './Channels';
 import MessageForm from './MessageForm';
 
