@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import { clean } from 'leo-profanity';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -9,7 +10,7 @@ const AddModal = ({
 }) => {
   const [addChannel, { isLoading }] = useAddChannelMutation();
   const {
-    touched, isValid, values, errors, handleChange, handleSubmit,
+    touched, values, errors, handleChange, handleSubmit,
   } = useFormik({
     initialValues: {
       name: '',
@@ -17,7 +18,7 @@ const AddModal = ({
     validationSchema: schema,
     validateOnChange: false,
     onSubmit: async ({ name }, { resetForm }) => {
-      await addChannel({ name }).unwrap();
+      await addChannel({ name: clean(name) }).unwrap();
       resetForm();
       hideModal();
 
@@ -41,7 +42,7 @@ const AddModal = ({
               value={values.name}
               disabled={isLoading}
               onChange={handleChange}
-              isInvalid={touched.name && !isValid}
+              isInvalid={touched.name && errors.name}
             />
             <Form.Label className="visually-hidden" htmlFor="name">{channelName}</Form.Label>
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>

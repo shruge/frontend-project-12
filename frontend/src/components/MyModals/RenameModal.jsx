@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import { clean } from 'leo-profanity';
 import { useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -11,7 +12,7 @@ const RenameModal = ({
   const inputRef = useRef(null);
   const [renameChannel, { isLoading }] = useRenameChannelMutation();
   const {
-    touched, isValid, values, errors, handleChange, handleSubmit,
+    touched, values, errors, handleChange, handleSubmit,
   } = useFormik({
     initialValues: {
       name: channelName,
@@ -19,7 +20,7 @@ const RenameModal = ({
     validationSchema: schema,
     validateOnChange: false,
     onSubmit: async ({ name }, { resetForm }) => {
-      await renameChannel({ body: { name }, id }).unwrap();
+      await renameChannel({ body: { name: clean(name) }, id }).unwrap();
       resetForm();
       hideModal();
 
@@ -50,7 +51,7 @@ const RenameModal = ({
               value={values.name}
               disabled={isLoading}
               onChange={handleChange}
-              isInvalid={touched.name && !isValid}
+              isInvalid={touched.name && errors.name}
             />
             <Form.Label className="visually-hidden" htmlFor="name">{channelName}</Form.Label>
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>

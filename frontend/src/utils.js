@@ -1,3 +1,4 @@
+import { clean } from 'leo-profanity';
 import { Bounce } from 'react-toastify';
 import * as yup from 'yup';
 import AddModal from './components/MyModals/AddModal';
@@ -9,6 +10,8 @@ export const modals = {
   remove: RemoveModal,
   rename: RenameModal,
 };
+
+const isSwearWord = (word) => clean(word).split('').every((ch) => ch === '*');
 
 export const toastOptions = {
   position: 'top-right',
@@ -27,7 +30,16 @@ export const getModalsSchema = (key, items, t) => {
       .trim()
       .notOneOf(items, t('validation.unique'))
       .min(3, t('validation.maxMinLen'))
-      .max(20, t('validation.maxMinLen')),
+      .max(20, t('validation.maxMinLen'))
+      .test('', '', (val) => {
+        if (isSwearWord(val)) {
+          const allSwearWords = items.filter((word) => isSwearWord(word));
+
+          return allSwearWords.every((item) => val.length !== item.length);
+        }
+
+        return true;
+      }),
   });
 
   return schema;

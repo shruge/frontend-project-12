@@ -4,8 +4,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Button from 'react-bootstrap/esm/Button';
 import { useDispatch } from 'react-redux';
-import { setCurrChannel } from '../../../store/slices/globalSlice';
-import { openModal } from '../../../store/slices/modalSlice';
+import { setCurrChannel } from '../../store/slices/globalSlice';
+import { openModal } from '../../store/slices/modalSlice';
 
 const Channels = ({ t, channels, currChannelId }) => {
   const dispatch = useDispatch();

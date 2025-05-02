@@ -1,12 +1,13 @@
 import { useFormik } from 'formik';
+import { clean } from 'leo-profanity';
 import { useEffect, useRef } from 'react';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/esm/Form';
 import InputGroup from 'react-bootstrap/esm/InputGroup';
 import { useSelector } from 'react-redux';
-import { useAddMessageMutation, useGetMessagesQuery } from '../../../store/api/messagesApi';
-import { getChannelName, getMessagesCount } from '../../../utils';
+import { useAddMessageMutation, useGetMessagesQuery } from '../../store/api/messagesApi';
+import { getChannelName, getMessagesCount } from '../../utils';
 
 const MessageForm = ({ t, channels, currChannelId }) => {
   const inpRef = useRef(null);
@@ -20,7 +21,7 @@ const MessageForm = ({ t, channels, currChannelId }) => {
     },
     onSubmit: async ({ body }, { resetForm }) => {
       resetForm();
-      await addMessage({ body, username, channelId: currChannelId }).unwrap();
+      await addMessage({ body: clean(body), username, channelId: currChannelId }).unwrap();
     },
   });
   const isDisabled = !values.body.trim().length;

@@ -2,7 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { closeModal } from '../../store/slices/modalSlice';
 import {
-  getChannelName, getModalsSchema, toastOptions, modals,
+  getChannelName, getModalsSchema,
+  modals,
+  toastOptions,
 } from '../../utils';
 
 const MyModal = ({ t, channels }) => {

@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoginForm from '../pages/Auth/LoginForm';
+import RegisterForm from '../pages/Auth/RegisterForm';
+import Chat from '../pages/Chat/Chat';
+import NotFound from '../pages/NotFound';
 import PrivateRoute from '../router/PrivateRoute';
 import { setAuthData } from '../store/slices/authSlice';
 import NavBar from './NavBar';
-import Chat from './pages/Chat/Chat';
-import AuthForm from './pages/Forms/AuthForm';
-import RegisterForm from './pages/Forms/RegisterForm';
-import NotFound from './pages/NotFound';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const App = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<Chat />} />
           </Route>
-          <Route path="/login" element={<AuthForm />} />
+          <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<RegisterForm />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

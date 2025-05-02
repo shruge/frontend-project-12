@@ -11,9 +11,9 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import authImg from '../../../assets/authImg.jpg';
-import { getToken, setAuthError } from '../../../store/slices/authSlice';
-import { toastOptions } from '../../../utils';
+import authImg from '../../assets/authImg.jpg';
+import { getToken, setAuthError } from '../../store/slices/authSlice';
+import { toastOptions } from '../../utils';
 
 const AuthForm = () => {
   const { t } = useTranslation();

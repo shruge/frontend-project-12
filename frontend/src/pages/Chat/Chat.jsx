@@ -3,9 +3,9 @@ import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useChatSocket } from '../../../socket';
-import { useGetChannelsQuery } from '../../../store/api/channelsApi';
-import MyModal from '../../MyModals/MyModal';
+import MyModal from '../../components/MyModals/MyModal';
+import { useChatSocket } from '../../socket';
+import { useGetChannelsQuery } from '../../store/api/channelsApi';
 import Channels from './Channels';
 import MessageForm from './MessageForm';
 
