@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useAddChannelMutation } from '../../store/api/channelsApi';
 
 const AddModal = ({
-  t, schema, channelName, isOpen, hideModal,
+  t, toast, toastOpt, schema, channelName, isOpen, hideModal,
 }) => {
   const [addChannel, { isLoading }] = useAddChannelMutation();
   const {
@@ -20,6 +20,8 @@ const AddModal = ({
       await addChannel({ name }).unwrap();
       resetForm();
       hideModal();
+
+      toast.success(t('toasts.add'), toastOpt);
     },
   });
 

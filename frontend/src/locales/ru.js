@@ -4,6 +4,7 @@ export default {
     signUp: 'Регистрация',
     sideBarTitle: 'Каналы',
     noAccount: 'Нет аккаунта? ',
+    chatLoading: 'Загрузка чата...',
     toHomePage: 'Вернуться на главную',
     pageNotFound: 'Страница не найдена',
     buttons: {
@@ -39,6 +40,11 @@ export default {
     ariaLabels: {
       newMessage: 'Новое сообщение',
     },
+    toasts: {
+      add: 'Канал добавлен',
+      remove: 'Канал удален',
+      rename: 'Канал переименован',
+    },
     validation: {
       required: 'Обязательное поле',
       unique: 'Должно быть уникальным',
@@ -47,9 +53,10 @@ export default {
       passwordConfirm: 'Пароли должны совпадать',
     },
     fetchErrors: {
-      serverError: 'Ошибка сервера!',
-      alreadyExist: 'Такой пользователь уже существует',
-      wrongPasOrLogin: 'Неверные имя пользователя или пароль',
+      serverError: 'Ошибка сервера',
+      networkError: 'Ошибка соединения',
+      Conflict: 'Такой пользователь уже существует',
+      Unauthorized: 'Неверные имя пользователя или пароль',
     },
   },
 };

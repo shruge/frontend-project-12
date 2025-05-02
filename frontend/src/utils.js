@@ -1,3 +1,4 @@
+import { Bounce } from 'react-toastify';
 import * as yup from 'yup';
 import AddModal from './components/MyModals/AddModal';
 import RemoveModal from './components/MyModals/RemoveModal';
@@ -7,6 +8,17 @@ export const modals = {
   add: AddModal,
   remove: RemoveModal,
   rename: RenameModal,
+};
+
+export const toastOptions = {
+  position: 'top-right',
+  autoClose: 5000,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: 'light',
+  transition: Bounce,
 };
 
 export const getModalsSchema = (key, items, t) => {

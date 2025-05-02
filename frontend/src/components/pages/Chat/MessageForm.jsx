@@ -19,8 +19,8 @@ const MessageForm = ({ t, channels, currChannelId }) => {
       body: '',
     },
     onSubmit: async ({ body }, { resetForm }) => {
-      await addMessage({ body, username, channelId: currChannelId }).unwrap();
       resetForm();
+      await addMessage({ body, username, channelId: currChannelId }).unwrap();
     },
   });
   const isDisabled = !values.body.trim().length;

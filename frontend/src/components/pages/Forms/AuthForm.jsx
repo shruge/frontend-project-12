@@ -10,8 +10,10 @@ import Row from 'react-bootstrap/Row';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import authImg from '../../../assets/authImg.jpg';
-import { getToken, setErr } from '../../../store/slices/authSlice';
+import { getToken, setAuthError } from '../../../store/slices/authSlice';
+import { toastOptions } from '../../../utils';
 
 const AuthForm = () => {
   const { t } = useTranslation();
@@ -25,16 +27,20 @@ const AuthForm = () => {
     },
     validateOnChange: false,
     onSubmit: ({ username, password }, { resetForm }) => {
-      dispatch(getToken({ username, password }))
-        .unwrap()
+      dispatch(getToken({ username, password })).unwrap()
         .then(() => {
           navigate('/');
           resetForm();
         }).catch((e) => {
-          dispatch(setErr(t(`fetchErrors.${e}`)));
+          const errorMessage = t(`fetchErrors.${e}`);
+
+          dispatch(setAuthError(errorMessage));
+
+          if (e === 'networkError') { toast.error(errorMessage, toastOptions); }
         });
     },
   });
+  const isInvalid = authError && authError !== 'Ошибка соединения';
 
   useEffect(() => {
     if (userName.length) { navigate('/', { replace: true }); }
@@ -57,7 +63,7 @@ const AuthForm = () => {
                     type="text"
                     id="username"
                     name="username"
-                    isInvalid={authError}
+                    isInvalid={isInvalid}
                     autoComplete="username"
                     onChange={handleChange}
                     value={values.username}
@@ -70,15 +76,17 @@ const AuthForm = () => {
                     id="password"
                     type="password"
                     name="password"
-                    isInvalid={authError}
+                    isInvalid={isInvalid}
                     value={values.password}
                     onChange={handleChange}
                     autoComplete="current-password"
                     placeholder={t('placeholders.password')}
                   />
-                  {authError ? <div className="invalid-tooltip">{authError}</div> : null}
+                  {isInvalid ? <div className="invalid-tooltip">{authError}</div> : null}
                 </FloatingLabel>
-                <Button className="w-100 mb-3" type="submit" variant="outline-primary">{t('logIn')}</Button>
+                <Button type="submit" className="w-100 mb-3" variant="outline-primary">
+                  {t('logIn')}
+                </Button>
               </Form>
             </Card.Body>
             <Card.Footer className="p-4">

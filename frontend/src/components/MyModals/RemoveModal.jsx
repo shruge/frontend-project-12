@@ -4,7 +4,7 @@ import { useRemoveChannelMutation } from '../../store/api/channelsApi';
 import { useRemoveMessageMutation } from '../../store/api/messagesApi';
 
 const RemoveModal = ({
-  t, id, isOpen, hideModal,
+  t, toast, toastOpt, id, isOpen, hideModal,
 }) => {
   const [removeMessage] = useRemoveMessageMutation();
   const [removeChannel, { isLoading }] = useRemoveChannelMutation();
@@ -13,6 +13,8 @@ const RemoveModal = ({
     await removeMessage(id);
     await removeChannel(id).unwrap();
     hideModal();
+
+    toast.success(t('toasts.remove'), toastOpt);
   };
 
   return (

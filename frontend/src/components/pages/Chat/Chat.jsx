@@ -12,10 +12,10 @@ import MessageForm from './MessageForm';
 const Chat = () => {
   useChatSocket();
   const { t } = useTranslation();
-  const { data = [] } = useGetChannelsQuery();
+  const { data = [], isLoading } = useGetChannelsQuery();
   const { currChannel } = useSelector((state) => state.global);
 
-  return (
+  return isLoading ? <h1 className="text-center my-auto">{t('chatLoading')}</h1> : (
     <Container fluid className="container h-100 my-4 overflow-hidden rounded shadow">
       <MyModal t={t} channels={data} />
       <Row className="h-100 bg-white flex-md-row">

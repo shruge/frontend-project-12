@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import registrImg from '../../../assets/registrImg.jpg';
-import { createUser, setAuthData, setErr } from '../../../store/slices/authSlice';
+import { createUser, setAuthData, setAuthError } from '../../../store/slices/authSlice';
 import { getRegistrSchema } from '../../../utils';
 
 const RegisterForm = () => {
@@ -37,7 +37,7 @@ const RegisterForm = () => {
         }).catch((err) => {
           const errorMessage = t(`fetchErrors.${err}`);
 
-          dispatch(setErr(errorMessage));
+          dispatch(setAuthError(errorMessage));
           setErrors({ username: ' ', password: ' ', confirmPassword: errorMessage });
         });
     },

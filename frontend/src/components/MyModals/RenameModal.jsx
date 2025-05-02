@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useRenameChannelMutation } from '../../store/api/channelsApi';
 
 const RenameModal = ({
-  t, id, schema, isOpen, hideModal, channelName,
+  t, toast, toastOpt, id, schema, isOpen, hideModal, channelName,
 }) => {
   const inputRef = useRef(null);
   const [renameChannel, { isLoading }] = useRenameChannelMutation();
@@ -22,6 +22,8 @@ const RenameModal = ({
       await renameChannel({ body: { name }, id }).unwrap();
       resetForm();
       hideModal();
+
+      toast.success(t('toasts.rename'), toastOpt);
     },
   });
 

@@ -27,11 +27,8 @@ export const getToken = createAsyncThunk(
       setLocalAuthData(data);
 
       return data;
-    } catch (error) {
-      const { message } = error;
-
-      return message === 'serverError' ? rejectWithValue(message)
-        : rejectWithValue('wrongPasOrLogin');
+    } catch ({ response = { statusText: 'networkError' } }) {
+      return rejectWithValue(response.statusText);
     }
   },
 );
@@ -45,11 +42,9 @@ export const createUser = createAsyncThunk(
       setLocalAuthData(data);
 
       return data;
-    } catch (error) {
-      const { message } = error;
-
-      return message === 'serverError' ? rejectWithValue(message)
-        : rejectWithValue('alreadyExist');
+    } catch ({ response = { statusText: 'networkError' } }) {
+      console.log(response.statusText);
+      return rejectWithValue(response.statusText);
     }
   },
 );
@@ -72,7 +67,7 @@ const authSlice = createSlice({
       state.error = null;
       state.username = '';
     },
-    setErr(state, { payload }) {
+    setAuthError(state, { payload }) {
       state.error = payload;
     },
   },
@@ -92,5 +87,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { authReset, setAuthData, setErr } = authSlice.actions;
+export const { authReset, setAuthData, setAuthError } = authSlice.actions;
 export default authSlice.reducer;

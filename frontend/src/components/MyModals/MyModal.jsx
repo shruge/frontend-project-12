@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { closeModal } from '../../store/slices/modalSlice';
-import { getChannelName, getModalsSchema, modals } from '../../utils';
+import {
+  getChannelName, getModalsSchema, toastOptions, modals,
+} from '../../utils';
 
 const MyModal = ({ t, channels }) => {
   const dispatch = useDispatch();
@@ -17,10 +20,12 @@ const MyModal = ({ t, channels }) => {
   return (
     <Modal
       t={t}
+      toast={toast}
       id={channelId}
       schema={schema}
       isOpen={isOpen}
       hideModal={hideModal}
+      toastOpt={toastOptions}
       channelName={channelName}
     />
   );
