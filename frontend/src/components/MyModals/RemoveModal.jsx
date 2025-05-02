@@ -3,7 +3,9 @@ import Modal from 'react-bootstrap/Modal';
 import { useRemoveChannelMutation } from '../../store/api/channelsApi';
 import { useRemoveMessageMutation } from '../../store/api/messagesApi';
 
-const RemoveModal = ({ id, isOpen, hideModal }) => {
+const RemoveModal = ({
+  t, id, isOpen, hideModal,
+}) => {
   const [removeMessage] = useRemoveMessageMutation();
   const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
@@ -16,13 +18,13 @@ const RemoveModal = ({ id, isOpen, hideModal }) => {
   return (
     <Modal show={isOpen} onHide={hideModal} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('modal.remove')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p className="lead">Уверены?</p>
+        <p className="lead">{t('modal.warning')}</p>
         <div className="d-flex justify-content-end">
-          <Button type="button" className="me-2" variant="secondary" onClick={hideModal}>Отменить</Button>
-          <Button type="submit" variant="danger" onClick={delChannel} disabled={isLoading}>Удалить</Button>
+          <Button type="button" className="me-2" variant="secondary" onClick={hideModal}>{t('buttons.cancel')}</Button>
+          <Button type="submit" variant="danger" onClick={delChannel} disabled={isLoading}>{t('buttons.remove')}</Button>
         </div>
       </Modal.Body>
     </Modal>

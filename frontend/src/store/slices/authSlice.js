@@ -2,23 +2,36 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const setLocalAuthData = ({ token, username }) => {
+  localStorage.setItem('user', JSON.stringify({ token, username }));
+};
+
+const postData = async (url, reqBody) => {
+  const res = await axios.post(url, reqBody, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const { data } = res;
+
+  if (!Object.hasOwn(data, 'token')) { throw new Error('serverError'); }
+
+  return data;
+};
+
 export const getToken = createAsyncThunk(
   'authData/getToken',
   async (reqBody, { rejectWithValue }) => {
     try {
-      const res = await axios.post('http://localhost:5001/api/v1/login', reqBody, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const data = await postData('http://localhost:5001/api/v1/login', reqBody);
 
-      if (res.statusText !== 'OK') { throw new Error('Server Error!'); }
+      setLocalAuthData(data);
 
-      const { token, username } = res.data;
-
-      localStorage.setItem('user', JSON.stringify({ token, username }));
-
-      return { token, username };
+      return data;
     } catch (error) {
-      return rejectWithValue('Неверные имя пользователя или пароль');
+      const { message } = error;
+
+      return message === 'serverError' ? rejectWithValue(message)
+        : rejectWithValue('wrongPasOrLogin');
     }
   },
 );
@@ -27,21 +40,16 @@ export const createUser = createAsyncThunk(
   'authData/createUser',
   async (reqBody, { rejectWithValue }) => {
     try {
-      const res = await axios.post('/api/v1/signup', reqBody, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const data = await postData('/api/v1/signup', reqBody);
 
-      const { data, statusText } = res;
-      console.log(res);
-      if (statusText !== 'Created') { throw new Error('Пользователь уже существует!!'); }
-
-      localStorage.setItem('user', JSON.stringify({
-        token: data.token, username: data.username,
-      }));
+      setLocalAuthData(data);
 
       return data;
     } catch (error) {
-      return rejectWithValue('Пользователь уже существует!');
+      const { message } = error;
+
+      return message === 'serverError' ? rejectWithValue(message)
+        : rejectWithValue('alreadyExist');
     }
   },
 );
@@ -64,6 +72,9 @@ const authSlice = createSlice({
       state.error = null;
       state.username = '';
     },
+    setErr(state, { payload }) {
+      state.error = payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -81,5 +92,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { authReset, setAuthData } = authSlice.actions;
+export const { authReset, setAuthData, setErr } = authSlice.actions;
 export default authSlice.reducer;

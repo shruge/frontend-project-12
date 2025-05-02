@@ -6,16 +6,18 @@ import Container from 'react-bootstrap/esm/Container';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import Row from 'react-bootstrap/esm/Row';
 import Form from 'react-bootstrap/Form';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import registrImg from '../../../assets/registrImg.jpg';
-import { createUser, setAuthData } from '../../../store/slices/authSlice';
+import { createUser, setAuthData, setErr } from '../../../store/slices/authSlice';
 import { getRegistrSchema } from '../../../utils';
 
 const RegisterForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigate();
-  const schema = getRegistrSchema();
+  const schema = getRegistrSchema(t);
   const {
     setErrors, touched, errors, values, handleChange, handleSubmit, handleBlur,
   } = useFormik({
@@ -33,7 +35,10 @@ const RegisterForm = () => {
           navigation('/');
           resetForm();
         }).catch((err) => {
-          setErrors({ username: ' ', password: ' ', confirmPassword: err });
+          const errorMessage = t(`fetchErrors.${err}`);
+
+          dispatch(setErr(errorMessage));
+          setErrors({ username: ' ', password: ' ', confirmPassword: errorMessage });
         });
     },
   });
@@ -45,11 +50,11 @@ const RegisterForm = () => {
           <Card className="shadow-sm">
             <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <div>
-                <img src={registrImg} className="rounded-circle" alt="Регистрация" />
+                <img src={registrImg} className="rounded-circle" alt={t('signUp')} />
               </div>
               <Form className="w-50" onSubmit={handleSubmit}>
-                <h1 className="text-center mb-4">Регистрация</h1>
-                <FloatingLabel className="mb-3" label="Имя пользователя" controlId="username">
+                <h1 className="text-center mb-4">{t('signUp')}</h1>
+                <FloatingLabel className="mb-3" label={t('labels.username')} controlId="username">
                   <Form.Control
                     required
                     type="text"
@@ -60,11 +65,11 @@ const RegisterForm = () => {
                     onChange={handleChange}
                     value={values.username}
                     isInvalid={errors.username && touched.username}
-                    placeholder="От 3 до 20 символов"
+                    placeholder={t('errors.usernameLen')}
                   />
                   {errors.username && touched.username ? <div className="invalid-tooltip">{errors.username}</div> : null}
                 </FloatingLabel>
-                <FloatingLabel className="mb-3" label="Пароль" controlId="password">
+                <FloatingLabel className="mb-3" label={t('labels.password')} controlId="password">
                   <Form.Control
                     required
                     id="password"
@@ -75,12 +80,12 @@ const RegisterForm = () => {
                     value={values.password}
                     autoComplete="new-password"
                     isInvalid={errors.password && touched.password}
-                    placeholder="Не менее 6 символов"
+                    placeholder={t('errors.pasMinWidth')}
                     aria-describedby="passwordHelpBlock"
                   />
                   {errors.password && touched.password ? <div className="invalid-tooltip">{errors.password}</div> : null}
                 </FloatingLabel>
-                <FloatingLabel className="mb-4" label="Подтвердите пароль" controlId="password">
+                <FloatingLabel className="mb-4" label={t('labels.passwordConfirm')} controlId="password">
                   <Form.Control
                     required
                     type="password"
@@ -88,14 +93,14 @@ const RegisterForm = () => {
                     onBlur={handleBlur}
                     name="confirmPassword"
                     onChange={handleChange}
-                    value={values.confirmPassword}
                     autoComplete="new-password"
+                    value={values.confirmPassword}
                     isInvalid={errors.confirmPassword && touched.confirmPassword}
-                    placeholder="Пароли должны совпадать"
+                    placeholder={t('errors.passwordConfirm')}
                   />
                   {errors.confirmPassword && touched.confirmPassword ? <div className="invalid-tooltip">{errors.confirmPassword}</div> : null}
                 </FloatingLabel>
-                <Button className="w-100" type="submit" variant="outline-primary">Зарегистрироваться</Button>
+                <Button className="w-100" type="submit" variant="outline-primary">{t('buttons.signUp')}</Button>
               </Form>
             </Card.Body>
           </Card>

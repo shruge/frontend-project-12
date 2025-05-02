@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useAddChannelMutation } from '../../store/api/channelsApi';
 
 const AddModal = ({
-  schema, channelName, isOpen, hideModal,
+  t, schema, channelName, isOpen, hideModal,
 }) => {
   const [addChannel, { isLoading }] = useAddChannelMutation();
   const {
@@ -26,7 +26,7 @@ const AddModal = ({
   return (
     <Modal show={isOpen} centered onHide={hideModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('modal.add')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -44,8 +44,8 @@ const AddModal = ({
             <Form.Label className="visually-hidden" htmlFor="name">{channelName}</Form.Label>
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button type="button" className="me-2" variant="secondary" onClick={hideModal}>Отменить</Button>
-              <Button type="submit" disabled={isLoading}>Отправить</Button>
+              <Button type="button" className="me-2" variant="secondary" onClick={hideModal}>{t('buttons.cancel')}</Button>
+              <Button type="submit" disabled={isLoading}>{t('buttons.send')}</Button>
             </div>
           </div>
         </Form>

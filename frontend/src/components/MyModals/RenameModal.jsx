@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useRenameChannelMutation } from '../../store/api/channelsApi';
 
 const RenameModal = ({
-  id, schema, isOpen, hideModal, channelName,
+  t, id, schema, isOpen, hideModal, channelName,
 }) => {
   const inputRef = useRef(null);
   const [renameChannel, { isLoading }] = useRenameChannelMutation();
@@ -35,7 +35,7 @@ const RenameModal = ({
   return (
     <Modal show={isOpen} centered onHide={hideModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('modal.rename')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -53,8 +53,8 @@ const RenameModal = ({
             <Form.Label className="visually-hidden" htmlFor="name">{channelName}</Form.Label>
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button type="button" className="me-2" variant="secondary" onClick={hideModal}>Отменить</Button>
-              <Button type="submit" disabled={isLoading}>Отправить</Button>
+              <Button type="button" className="me-2" variant="secondary" onClick={hideModal}>{t('buttons.cancel')}</Button>
+              <Button type="submit" disabled={isLoading}>{t('buttons.send')}</Button>
             </div>
           </div>
         </Form>

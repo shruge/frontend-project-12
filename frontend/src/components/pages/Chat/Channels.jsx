@@ -7,12 +7,10 @@ import { useDispatch } from 'react-redux';
 import { setCurrChannel } from '../../../store/slices/globalSlice';
 import { openModal } from '../../../store/slices/modalSlice';
 
-const Channels = ({ channels, currChannelId }) => {
+const Channels = ({ t, channels, currChannelId }) => {
   const dispatch = useDispatch();
 
-  const setBtnVariant = (id) => (
-    id === currChannelId ? 'secondary' : ''
-  );
+  const setBtnVariant = (id) => (id === currChannelId ? 'secondary' : '');
 
   const showModal = () => {
     dispatch(openModal({ mode: 'add' }));
@@ -48,8 +46,8 @@ const Channels = ({ channels, currChannelId }) => {
         <ButtonGroup className="d-flex show dropdown">
           {btn}
           <DropdownButton as={ButtonGroup} variant={setBtnVariant(id)}>
-            <Dropdown.Item onClick={removeChannel(id)}>Удалить</Dropdown.Item>
-            <Dropdown.Item onClick={renameChannel(id)}>Переименовать</Dropdown.Item>
+            <Dropdown.Item onClick={removeChannel(id)}>{t('buttons.remove')}</Dropdown.Item>
+            <Dropdown.Item onClick={renameChannel(id)}>{t('buttons.rename')}</Dropdown.Item>
           </DropdownButton>
         </ButtonGroup>
       );
@@ -61,7 +59,7 @@ const Channels = ({ channels, currChannelId }) => {
   return (
     <>
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Каналы</b>
+        <b>{t('sideBarTitle')}</b>
         <Button
           variant=""
           type="button"

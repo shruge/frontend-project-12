@@ -9,29 +9,29 @@ export const modals = {
   rename: RenameModal,
 };
 
-export const getModalsSchema = (key, items) => {
+export const getModalsSchema = (key, items, t) => {
   const schema = yup.object().shape({
-    [key]: yup.string().required('Обязательное поле')
+    [key]: yup.string().required(t('validation.required'))
       .trim()
-      .notOneOf(items, 'Должно быть уникальным')
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов'),
+      .notOneOf(items, t('validation.unique'))
+      .min(3, t('validation.maxMinLen'))
+      .max(20, t('validation.maxMinLen')),
   });
 
   return schema;
 };
 
-export const getRegistrSchema = () => {
+export const getRegistrSchema = (t) => {
   const schema = yup.object().shape({
-    username: yup.string().required('Обязательное поле')
+    username: yup.string().required(t('validation.required'))
       .trim()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов'),
-    password: yup.string().required('Обязательное поле')
-      .trim().min(6, 'Не менее 6 символов'),
-    confirmPassword: yup.string().required('Обязательное поле')
+      .min(3, t('validation.maxMinLen'))
+      .max(20, t('validation.maxMinLen')),
+    password: yup.string().required(t('validation.required'))
+      .trim().min(6, t('validation.passwordMinLen')),
+    confirmPassword: yup.string().required(t('validation.required'))
       .trim()
-      .oneOf([yup.ref('password'), null], 'Пароли должны совпадать'),
+      .oneOf([yup.ref('password'), null], t('validation.passwordConfirm')),
   });
 
   return schema;

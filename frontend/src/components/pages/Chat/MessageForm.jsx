@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { useAddMessageMutation, useGetMessagesQuery } from '../../../store/api/messagesApi';
 import { getChannelName, getMessagesCount } from '../../../utils';
 
-const MessageForm = ({ channels, currChannelId }) => {
+const MessageForm = ({ t, channels, currChannelId }) => {
   const inpRef = useRef(null);
   const { data = [] } = useGetMessagesQuery();
   const { username } = useSelector((state) => state.authData);
@@ -56,9 +56,7 @@ const MessageForm = ({ channels, currChannelId }) => {
           </b>
         </p>
         <span className="text-muted">
-          {messagesCount}
-          {' '}
-          сообщений
+          {t('chat.messagesCount', { count: messagesCount })}
         </span>
       </div>
       {renderMessages()}
@@ -70,13 +68,13 @@ const MessageForm = ({ channels, currChannelId }) => {
               ref={inpRef}
               value={values.body}
               onChange={handleChange}
-              aria-label="Новое сообщение"
+              aria-label={t('ariaLabels.newMessage')}
               className="border-0 p-0 ps-2"
-              placeholder="Введите сообщение..."
+              placeholder={t('placeholders.enterMessage')}
             />
             <Button className="btn-group-vertical" type="submit" disabled={isDisabled} variant="">
               <ArrowRightSquare size={20} />
-              <span className="visually-hidden">Отправить</span>
+              <span className="visually-hidden">{t('buttons.send')}</span>
             </Button>
           </InputGroup>
         </Form>
