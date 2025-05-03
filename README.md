@@ -1,5 +1,5 @@
 ### Hexlet tests and linter status:
-[![Actions Status](https://github.com/shruge/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/shruge/frontend-project-12/actions)
+[![Actions Status](https://github.com/shruge/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/shruge/frontend-project-12/actions)  [![lint](https://github.com/shruge/frontend-project-12/actions/workflows/lint.yml/badge.svg)](https://github.com/shruge/frontend-project-12/actions/workflows/lint.yml)
 
 [сам Чат](https://frontend-project-12-rw11.onrender.com)
 
