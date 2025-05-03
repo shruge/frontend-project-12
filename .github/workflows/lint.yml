@@ -8,7 +8,5 @@ jobs:
       - name: install deps
         uses: actions/checkout@v4
       - run: make install
-      - name: change directory
-        run: cd ./fronted
       - name: lint code
         run: make lint
