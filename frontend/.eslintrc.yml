@@ -35,3 +35,10 @@ rules:
   react/function-component-definition: [2, { "namedComponents": "arrow-function" }]
   testing-library/no-debug: 0
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
+  
+  semi: "off"
+  indent: "off"
+  react/jsx-indent: "off"
+  brace-style: "off"
+  no-param-reassign: "off"
+  arrow-parens: "off"
