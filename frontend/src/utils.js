@@ -13,6 +13,13 @@ export const modals = {
 
 const isSwearWord = (word) => clean(word).split('').every((ch) => ch === '*');
 
+export const rollbarConfig = {
+  accessToken: '48e114e16b6e4fcf9c3e2268daf4ee70',
+  captureUnhandledRejections: true,
+  environment: 'testenv',
+  captureUncaught: true,
+};
+
 export const toastOptions = {
   position: 'top-right',
   autoClose: 5000,

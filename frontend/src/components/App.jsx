@@ -1,3 +1,4 @@
+import { ErrorBoundary, Provider } from '@rollbar/react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -9,6 +10,7 @@ import Chat from '../pages/Chat/Chat';
 import NotFound from '../pages/NotFound';
 import PrivateRoute from '../router/PrivateRoute';
 import { setAuthData } from '../store/slices/authSlice';
+import { rollbarConfig } from '../utils';
 import NavBar from './NavBar';
 
 const App = () => {
@@ -22,20 +24,24 @@ const App = () => {
   }, [authToken, dispatch]);
 
   return (
-    <div className="d-flex flex-column h-100">
-      <NavBar />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Chat />} />
-          </Route>
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/signup" element={<RegisterForm />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-      <ToastContainer />
-    </div>
+    <Provider config={rollbarConfig}>
+      <ErrorBoundary>
+        <div className="d-flex flex-column h-100">
+          <NavBar />
+          <BrowserRouter>
+            <Routes>
+              <Route element={<PrivateRoute />}>
+                <Route path="/" element={<Chat />} />
+              </Route>
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/signup" element={<RegisterForm />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+          <ToastContainer />
+        </div>
+      </ErrorBoundary>
+    </Provider>
   );
 };
 
