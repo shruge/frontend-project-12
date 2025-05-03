@@ -3,7 +3,7 @@ BUILD?=./frontend/dist
 install:
 	npm ci
 
-start-server: build
+start:
 	npx start-server -s $(BUILD)
 
 build: install
