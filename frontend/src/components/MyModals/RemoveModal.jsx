@@ -1,21 +1,21 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { useRemoveChannelMutation } from '../../store/api/channelsApi';
-import { useRemoveMessageMutation } from '../../store/api/messagesApi';
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import { useRemoveChannelMutation } from '../../store/api/channelsApi'
+import { useRemoveMessageMutation } from '../../store/api/messagesApi'
 
 const RemoveModal = ({
   t, toast, toastOpt, id, isOpen, hideModal,
 }) => {
-  const [removeMessage] = useRemoveMessageMutation();
-  const [removeChannel, { isLoading }] = useRemoveChannelMutation();
+  const [removeMessage] = useRemoveMessageMutation()
+  const [removeChannel, { isLoading }] = useRemoveChannelMutation()
 
   const delChannel = async () => {
-    await removeMessage(id);
-    await removeChannel(id).unwrap();
-    hideModal();
+    await removeMessage(id)
+    await removeChannel(id).unwrap()
+    hideModal()
 
-    toast.success(t('toasts.remove'), toastOpt);
-  };
+    toast.success(t('toasts.remove'), toastOpt)
+  }
 
   return (
     <Modal show={isOpen} onHide={hideModal} centered>
@@ -30,7 +30,7 @@ const RemoveModal = ({
         </div>
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}
 
-export default RemoveModal;
+export default RemoveModal

@@ -1,50 +1,51 @@
-import { useFormik } from 'formik';
-import { clean } from 'leo-profanity';
-import { useEffect, useRef } from 'react';
-import { ArrowRightSquare } from 'react-bootstrap-icons';
-import Button from 'react-bootstrap/esm/Button';
-import Form from 'react-bootstrap/esm/Form';
-import InputGroup from 'react-bootstrap/esm/InputGroup';
-import { useSelector } from 'react-redux';
-import { useAddMessageMutation, useGetMessagesQuery } from '../../store/api/messagesApi';
-import { getChannelName, getMessagesCount } from '../../utils';
+import { useFormik } from 'formik'
+import { clean } from 'leo-profanity'
+import { useEffect, useRef } from 'react'
+import { ArrowRightSquare } from 'react-bootstrap-icons'
+import Button from 'react-bootstrap/esm/Button'
+import Form from 'react-bootstrap/esm/Form'
+import InputGroup from 'react-bootstrap/esm/InputGroup'
+import { useSelector } from 'react-redux'
+import { useAddMessageMutation, useGetMessagesQuery } from '../../store/api/messagesApi'
+import { getChannelName, getMessagesCount } from '../../utils'
 
 const MessageForm = ({ t, channels, currChannelId }) => {
-  const inpRef = useRef(null);
-  const { data = [] } = useGetMessagesQuery();
-  const { username } = useSelector((state) => state.authData);
-  const [addMessage] = useAddMessageMutation();
-  const messagesCount = getMessagesCount(currChannelId, data);
+  const inpRef = useRef(null)
+  const { data = [] } = useGetMessagesQuery()
+  const { username } = useSelector(state => state.authData)
+  const [addMessage] = useAddMessageMutation()
+  const messagesCount = getMessagesCount(currChannelId, data)
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
       body: '',
     },
     onSubmit: async ({ body }, { resetForm }) => {
-      resetForm();
-      await addMessage({ body: clean(body), username, channelId: currChannelId }).unwrap();
+      resetForm()
+      await addMessage({ body: clean(body), username, channelId: currChannelId }).unwrap()
     },
-  });
-  const isDisabled = !values.body.trim().length;
+  })
+  const isDisabled = !values.body.trim().length
 
   useEffect(() => {
-    inpRef.current?.focus();
-  }, [currChannelId]);
+    inpRef.current?.focus()
+  }, [currChannelId])
 
   const renderMessages = () => (
     <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-      {data.map((msg) => (
-        msg.channelId !== currChannelId ? null
+      {data.map(msg => (
+        msg.channelId !== currChannelId
+          ? null
           : (
-            <div key={msg.id} className="text-break mb-2">
-              <b>{msg.username}</b>
-              :
-              {' '}
-              {msg.body}
-            </div>
-          )
+              <div key={msg.id} className="text-break mb-2">
+                <b>{msg.username}</b>
+                :
+                {' '}
+                {msg.body}
+              </div>
+            )
       ))}
     </div>
-  );
+  )
 
   return (
     <div className="d-flex flex-column h-100">
@@ -81,7 +82,7 @@ const MessageForm = ({ t, channels, currChannelId }) => {
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MessageForm;
+export default MessageForm

@@ -1,25 +1,25 @@
-import { useFormik } from 'formik';
-import { useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/esm/Col';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import authImg from '../../assets/authImg.jpg';
-import { getToken, setAuthError } from '../../store/slices/authSlice';
-import { toastOptions } from '../../utils';
+import { useFormik } from 'formik'
+import { useEffect } from 'react'
+import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
+import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/esm/Col'
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import authImg from '../../assets/authImg.jpg'
+import { getToken, setAuthError } from '../../store/slices/authSlice'
+import { toastOptions } from '../../utils'
 
 const AuthForm = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { username: userName, error: authError } = useSelector((state) => state.authData);
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { username: userName, error: authError } = useSelector(state => state.authData)
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
       password: '',
@@ -29,22 +29,26 @@ const AuthForm = () => {
     onSubmit: ({ username, password }, { resetForm }) => {
       dispatch(getToken({ username, password })).unwrap()
         .then(() => {
-          navigate('/');
-          resetForm();
+          navigate('/')
+          resetForm()
         }).catch((e) => {
-          const errorMessage = t(`fetchErrors.${e}`);
+          const errorMessage = t(`fetchErrors.${e}`)
 
-          dispatch(setAuthError(errorMessage));
+          dispatch(setAuthError(errorMessage))
 
-          if (e === 'networkError') { toast.error(errorMessage, toastOptions); }
-        });
+          if (e === 'networkError') {
+            toast.error(errorMessage, toastOptions)
+          }
+        })
     },
-  });
-  const isInvalid = authError && authError !== 'Ошибка соединения';
+  })
+  const isInvalid = authError && authError !== 'Ошибка соединения'
 
   useEffect(() => {
-    if (userName.length) { navigate('/', { replace: true }); }
-  }, [userName, navigate]);
+    if (userName.length) {
+      navigate('/', { replace: true })
+    }
+  }, [userName, navigate])
 
   return (
     <Container fluid className="h-100">
@@ -99,7 +103,7 @@ const AuthForm = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default AuthForm;
+export default AuthForm

@@ -1,16 +1,16 @@
-import { useFormik } from 'formik';
-import { clean } from 'leo-profanity';
-import { useEffect, useRef } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import { useRenameChannelMutation } from '../../store/api/channelsApi';
+import { useFormik } from 'formik'
+import { clean } from 'leo-profanity'
+import { useEffect, useRef } from 'react'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
+import { useRenameChannelMutation } from '../../store/api/channelsApi'
 
 const RenameModal = ({
   t, toast, toastOpt, id, schema, isOpen, hideModal, channelName,
 }) => {
-  const inputRef = useRef(null);
-  const [renameChannel, { isLoading }] = useRenameChannelMutation();
+  const inputRef = useRef(null)
+  const [renameChannel, { isLoading }] = useRenameChannelMutation()
   const {
     touched, values, errors, handleChange, handleSubmit,
   } = useFormik({
@@ -20,20 +20,20 @@ const RenameModal = ({
     validationSchema: schema,
     validateOnChange: false,
     onSubmit: async ({ name }, { resetForm }) => {
-      await renameChannel({ body: { name: clean(name) }, id }).unwrap();
-      resetForm();
-      hideModal();
+      await renameChannel({ body: { name: clean(name) }, id }).unwrap()
+      resetForm()
+      hideModal()
 
-      toast.success(t('toasts.rename'), toastOpt);
+      toast.success(t('toasts.rename'), toastOpt)
     },
-  });
+  })
 
   useEffect(() => {
     setTimeout(() => {
-      inputRef.current?.focus();
-      inputRef.current?.select();
-    }, 0);
-  }, []);
+      inputRef.current?.focus()
+      inputRef.current?.select()
+    }, 0)
+  }, [])
 
   return (
     <Modal show={isOpen} centered onHide={hideModal}>
@@ -63,7 +63,7 @@ const RenameModal = ({
         </Form>
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}
 
-export default RenameModal;
+export default RenameModal

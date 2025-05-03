@@ -1,23 +1,23 @@
-import { useFormik } from 'formik';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/esm/Button';
-import Col from 'react-bootstrap/esm/Col';
-import Container from 'react-bootstrap/esm/Container';
-import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
-import Row from 'react-bootstrap/esm/Row';
-import Form from 'react-bootstrap/Form';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import registrImg from '../../assets/registrImg.jpg';
-import { createUser, setAuthData, setAuthError } from '../../store/slices/authSlice';
-import { getRegistrSchema } from '../../utils';
+import { useFormik } from 'formik'
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/esm/Button'
+import Col from 'react-bootstrap/esm/Col'
+import Container from 'react-bootstrap/esm/Container'
+import FloatingLabel from 'react-bootstrap/esm/FloatingLabel'
+import Row from 'react-bootstrap/esm/Row'
+import Form from 'react-bootstrap/Form'
+import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import registrImg from '../../assets/registrImg.jpg'
+import { createUser, setAuthData, setAuthError } from '../../store/slices/authSlice'
+import { getRegistrSchema } from '../../utils'
 
 const RegisterForm = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const navigation = useNavigate();
-  const schema = getRegistrSchema(t);
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const navigation = useNavigate()
+  const schema = getRegistrSchema(t)
   const {
     setErrors, touched, errors, values, handleChange, handleSubmit, handleBlur,
   } = useFormik({
@@ -31,17 +31,17 @@ const RegisterForm = () => {
     onSubmit: ({ username, password }, { resetForm }) => {
       dispatch(createUser({ username, password })).unwrap()
         .then(() => {
-          dispatch(setAuthData({ username, password }));
-          navigation('/');
-          resetForm();
+          dispatch(setAuthData({ username, password }))
+          navigation('/')
+          resetForm()
         }).catch((err) => {
-          const errorMessage = t(`fetchErrors.${err}`);
+          const errorMessage = t(`fetchErrors.${err}`)
 
-          dispatch(setAuthError(errorMessage));
-          setErrors({ username: ' ', password: ' ', confirmPassword: errorMessage });
-        });
+          dispatch(setAuthError(errorMessage))
+          setErrors({ username: ' ', password: ' ', confirmPassword: errorMessage })
+        })
     },
-  });
+  })
 
   return (
     <Container fluid className="h-100">
@@ -107,7 +107,7 @@ const RegisterForm = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default RegisterForm;
+export default RegisterForm

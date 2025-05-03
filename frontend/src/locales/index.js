@@ -1,7 +1,7 @@
-import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import { initReactI18next } from 'react-i18next';
-import ru from './ru';
+import i18next from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import { initReactI18next } from 'react-i18next'
+import ru from './ru'
 
 i18next
   .use(initReactI18next)
@@ -12,6 +12,6 @@ i18next
     interpolation: {
       escapeValue: false,
     },
-  });
+  })
 
-export default i18next;
+export default i18next

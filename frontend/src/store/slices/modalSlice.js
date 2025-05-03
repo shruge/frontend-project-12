@@ -1,5 +1,4 @@
-/* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const modalSlice = createSlice({
   name: 'modal',
@@ -10,17 +9,17 @@ const modalSlice = createSlice({
   },
   reducers: {
     openModal(state, { payload }) {
-      state.isOpen = true;
-      state.mode = payload.mode;
-      state.channelId = payload.channelId || '';
+      state.isOpen = true
+      state.mode = payload.mode
+      state.channelId = payload.channelId || ''
     },
     closeModal(state) {
-      state.mode = 'add';
-      state.isOpen = false;
-      state.channelId = '';
+      state.mode = 'add'
+      state.isOpen = false
+      state.channelId = ''
     },
   },
-});
+})
 
-export const { openModal, closeModal } = modalSlice.actions;
-export default modalSlice.reducer;
+export const { openModal, closeModal } = modalSlice.actions
+export default modalSlice.reducer

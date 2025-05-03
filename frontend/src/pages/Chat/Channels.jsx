@@ -1,32 +1,32 @@
-import { PlusSquare } from 'react-bootstrap-icons';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Button from 'react-bootstrap/esm/Button';
-import { useDispatch } from 'react-redux';
-import { setCurrChannel } from '../../store/slices/globalSlice';
-import { openModal } from '../../store/slices/modalSlice';
+import { PlusSquare } from 'react-bootstrap-icons'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Button from 'react-bootstrap/esm/Button'
+import { useDispatch } from 'react-redux'
+import { setCurrChannel } from '../../store/slices/globalSlice'
+import { openModal } from '../../store/slices/modalSlice'
 
 const Channels = ({ t, channels, currChannelId }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const setBtnVariant = (id) => (id === currChannelId ? 'secondary' : '');
+  const setBtnVariant = id => (id === currChannelId ? 'secondary' : '')
 
   const showModal = () => {
-    dispatch(openModal({ mode: 'add' }));
-  };
+    dispatch(openModal({ mode: 'add' }))
+  }
 
-  const activeChannel = (id) => () => {
-    dispatch(setCurrChannel({ id }));
-  };
+  const activeChannel = id => () => {
+    dispatch(setCurrChannel({ id }))
+  }
 
-  const removeChannel = (channelId) => () => {
-    dispatch(openModal({ channelId, mode: 'remove' }));
-  };
+  const removeChannel = channelId => () => {
+    dispatch(openModal({ channelId, mode: 'remove' }))
+  }
 
-  const renameChannel = (channelId) => () => {
-    dispatch(openModal({ mode: 'rename', channelId }));
-  };
+  const renameChannel = channelId => () => {
+    dispatch(openModal({ mode: 'rename', channelId }))
+  }
 
   const createDropBtn = (id, channelName, removable) => {
     const btn = (
@@ -39,7 +39,7 @@ const Channels = ({ t, channels, currChannelId }) => {
         <span className="me-1">#</span>
         {channelName}
       </Button>
-    );
+    )
 
     if (removable) {
       return (
@@ -53,11 +53,11 @@ const Channels = ({ t, channels, currChannelId }) => {
             <Dropdown.Item onClick={renameChannel(id)}>{t('buttons.rename')}</Dropdown.Item>
           </DropdownButton>
         </ButtonGroup>
-      );
+      )
     }
 
-    return btn;
-  };
+    return btn
+  }
 
   return (
     <>
@@ -81,7 +81,7 @@ const Channels = ({ t, channels, currChannelId }) => {
         ))}
       </ul>
     </>
-  );
-};
+  )
+}
 
-export default Channels;
+export default Channels

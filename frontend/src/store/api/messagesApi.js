@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
@@ -6,14 +6,16 @@ export const messagesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1/messages',
     prepareHeaders: (headers, { getState }) => {
-      const { token } = getState().authData;
+      const { token } = getState().authData
 
-      if (token) { headers.set('authorization', `Bearer ${token}`); }
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`)
+      }
 
-      return headers;
+      return headers
     },
   }),
-  endpoints: (build) => ({
+  endpoints: build => ({
     getMessages: build.query({
       query: () => '',
       // providesTags: (res) => res
@@ -24,20 +26,20 @@ export const messagesApi = createApi({
       //   : [{ type: 'Messages', id: 'LIST' }],
     }),
     addMessage: build.mutation({
-      query: (body) => ({
+      query: body => ({
         method: 'POST',
         body,
       }),
       // invalidatesTags: [{ type: 'Messages', id: 'LIST' }],
     }),
     removeMessage: build.mutation({
-      query: (id) => ({
+      query: id => ({
         method: 'DELETE',
         url: `${id}`,
       }),
       // invalidatesTags: [{ type: 'Messages', id: 'LIST' }],
     }),
   }),
-});
+})
 
-export const { useGetMessagesQuery, useAddMessageMutation, useRemoveMessageMutation } = messagesApi;
+export const { useGetMessagesQuery, useAddMessageMutation, useRemoveMessageMutation } = messagesApi

@@ -1,14 +1,14 @@
-import { useFormik } from 'formik';
-import { clean } from 'leo-profanity';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import { useAddChannelMutation } from '../../store/api/channelsApi';
+import { useFormik } from 'formik'
+import { clean } from 'leo-profanity'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
+import { useAddChannelMutation } from '../../store/api/channelsApi'
 
 const AddModal = ({
   t, toast, toastOpt, schema, isOpen, hideModal,
 }) => {
-  const [addChannel, { isLoading }] = useAddChannelMutation();
+  const [addChannel, { isLoading }] = useAddChannelMutation()
   const {
     touched, values, errors, handleChange, handleSubmit,
   } = useFormik({
@@ -18,13 +18,13 @@ const AddModal = ({
     validationSchema: schema,
     validateOnChange: false,
     onSubmit: async ({ name }, { resetForm }) => {
-      await addChannel({ name: clean(name) }).unwrap();
-      resetForm();
-      hideModal();
+      await addChannel({ name: clean(name) }).unwrap()
+      resetForm()
+      hideModal()
 
-      toast.success(t('toasts.add'), toastOpt);
+      toast.success(t('toasts.add'), toastOpt)
     },
-  });
+  })
 
   return (
     <Modal show={isOpen} centered onHide={hideModal}>
@@ -54,7 +54,7 @@ const AddModal = ({
         </Form>
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}
 
-export default AddModal;
+export default AddModal

@@ -1,23 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { closeModal } from '../../store/slices/modalSlice';
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { closeModal } from '../../store/slices/modalSlice'
 import {
   getChannelName, getModalsSchema,
   modals,
   toastOptions,
-} from '../../utils';
+} from '../../utils'
 
 const MyModal = ({ t, channels }) => {
-  const dispatch = useDispatch();
-  const channelsName = channels.map(({ name }) => name);
-  const { mode, isOpen, channelId } = useSelector((state) => state.modal);
-  const channelName = getChannelName(channelId, channels);
-  const schema = getModalsSchema('name', channelsName, t);
-  const Modal = modals[mode];
+  const dispatch = useDispatch()
+  const channelsName = channels.map(({ name }) => name)
+  const { mode, isOpen, channelId } = useSelector(state => state.modal)
+  const channelName = getChannelName(channelId, channels)
+  const schema = getModalsSchema('name', channelsName, t)
+  const Modal = modals[mode]
 
   const hideModal = () => {
-    dispatch(closeModal());
-  };
+    dispatch(closeModal())
+  }
 
   return (
     <Modal
@@ -30,7 +30,7 @@ const MyModal = ({ t, channels }) => {
       toastOpt={toastOptions}
       channelName={channelName}
     />
-  );
-};
+  )
+}
 
-export default MyModal;
+export default MyModal
