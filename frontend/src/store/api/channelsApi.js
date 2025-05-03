@@ -4,7 +4,7 @@ export const channelsApi = createApi({
   reducerPath: 'channelsApi',
   tagTypes: ['Channels'],
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5001/',
+    baseUrl: '/api/v1/channels',
     prepareHeaders: (headers, { getState }) => {
       const { token } = getState().authData;
 
@@ -15,7 +15,7 @@ export const channelsApi = createApi({
   }),
   endpoints: (build) => ({
     getChannels: build.query({
-      query: () => 'api/v1/channels',
+      query: () => '',
       // providesTags: (res) => res
       //   ? [
       //       ...res.map(({ id }) => ({ type: 'Channels', id })),
@@ -25,7 +25,6 @@ export const channelsApi = createApi({
     }),
     addChannel: build.mutation({
       query: (body) => ({
-        url: 'api/v1/channels',
         method: 'POST',
         body,
       }),
@@ -35,14 +34,14 @@ export const channelsApi = createApi({
       query: ({ body, id }) => ({
         body,
         method: 'PATCH',
-        url: `api/v1/channels/${id}`,
+        url: `${id}`,
       }),
       // invalidatesTags: [{ type: 'Channels', id: 'LIST' }],
     }),
     removeChannel: build.mutation({
       query: (id) => ({
         method: 'DELETE',
-        url: `api/v1/channels/${id}`,
+        url: `${id}`,
       }),
       // invalidatesTags: [{ type: 'Channels', id: 'LIST' }],
     }),

@@ -22,7 +22,7 @@ export const getToken = createAsyncThunk(
   'authData/getToken',
   async (reqBody, { rejectWithValue }) => {
     try {
-      const data = await postData('http://localhost:5001/api/v1/login', reqBody);
+      const data = await postData('/api/v1/login', reqBody);
 
       setLocalAuthData(data);
 

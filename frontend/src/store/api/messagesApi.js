@@ -4,7 +4,7 @@ export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   tagTypes: ['Messages'],
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5001/',
+    baseUrl: '/api/v1/messages',
     prepareHeaders: (headers, { getState }) => {
       const { token } = getState().authData;
 
@@ -15,7 +15,7 @@ export const messagesApi = createApi({
   }),
   endpoints: (build) => ({
     getMessages: build.query({
-      query: () => 'api/v1/messages',
+      query: () => '',
       // providesTags: (res) => res
       //   ? [
       //       ...res.map(({ id }) => ({ type: 'Messages', id })),
@@ -25,7 +25,6 @@ export const messagesApi = createApi({
     }),
     addMessage: build.mutation({
       query: (body) => ({
-        url: 'api/v1/messages',
         method: 'POST',
         body,
       }),
@@ -34,7 +33,7 @@ export const messagesApi = createApi({
     removeMessage: build.mutation({
       query: (id) => ({
         method: 'DELETE',
-        url: `api/v1/messages/${id}`,
+        url: `${id}`,
       }),
       // invalidatesTags: [{ type: 'Messages', id: 'LIST' }],
     }),
