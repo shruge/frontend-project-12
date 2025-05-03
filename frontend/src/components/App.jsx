@@ -28,10 +28,10 @@ const App = () => {
       <ErrorBoundary>
         <div className="d-flex flex-column h-100">
           <NavBar />
-          <BrowserRouter>
+          <BrowserRouter basename="/">
             <Routes>
               <Route element={<PrivateRoute />}>
-                <Route path="/" element={<Chat />} />
+                <Route index element={<Chat />} />
               </Route>
               <Route path="/login" element={<LoginForm />} />
               <Route path="/signup" element={<RegisterForm />} />

@@ -41,8 +41,8 @@ export default {
       newMessage: 'Новое сообщение',
     },
     toasts: {
-      add: 'Канал добавлен',
-      remove: 'Канал удален',
+      add: 'Канал создан',
+      remove: 'Канал удалён',
       rename: 'Канал переименован',
     },
     validation: {

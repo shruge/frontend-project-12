@@ -85,7 +85,7 @@ const RegisterForm = () => {
                   />
                   {errors.password && touched.password ? <div className="invalid-tooltip">{errors.password}</div> : null}
                 </FloatingLabel>
-                <FloatingLabel className="mb-4" label={t('labels.passwordConfirm')} controlId="password">
+                <FloatingLabel className="mb-4" label={t('labels.passwordConfirm')} controlId="confirmPassword">
                   <Form.Control
                     required
                     type="password"

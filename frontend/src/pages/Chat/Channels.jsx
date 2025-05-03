@@ -45,7 +45,10 @@ const Channels = ({ t, channels, currChannelId }) => {
       return (
         <ButtonGroup className="d-flex show dropdown">
           {btn}
-          <DropdownButton as={ButtonGroup} variant={setBtnVariant(id)}>
+          <DropdownButton
+            variant={setBtnVariant(id)}
+            title={<span className="visually-hidden">Управление каналом</span>}
+          >
             <Dropdown.Item onClick={removeChannel(id)}>{t('buttons.remove')}</Dropdown.Item>
             <Dropdown.Item onClick={renameChannel(id)}>{t('buttons.rename')}</Dropdown.Item>
           </DropdownButton>
