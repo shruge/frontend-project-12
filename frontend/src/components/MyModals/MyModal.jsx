@@ -1,18 +1,16 @@
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
 import { closeModal } from '../../store/slices/modalSlice'
-import {
-  getChannelName, getModalsSchema,
-  modals,
-  toastOptions,
-} from '../../utils'
+import { getChannelName } from '../../utils'
+import { getModalsSchema, modals } from './index'
 
-const MyModal = ({ t, channels }) => {
+const MyModal = ({ channels }) => {
   const dispatch = useDispatch()
+  const { t } = useTranslation()
   const channelsName = channels.map(({ name }) => name)
   const { mode, isOpen, channelId } = useSelector(state => state.modal)
   const channelName = getChannelName(channelId, channels)
-  const schema = getModalsSchema('name', channelsName, t)
+  const schema = getModalsSchema(channelsName, t)
   const Modal = modals[mode]
 
   const hideModal = () => {
@@ -21,13 +19,9 @@ const MyModal = ({ t, channels }) => {
 
   return (
     <Modal
-      t={t}
-      toast={toast}
-      id={channelId}
       schema={schema}
       isOpen={isOpen}
       hideModal={hideModal}
-      toastOpt={toastOptions}
       channelName={channelName}
     />
   )

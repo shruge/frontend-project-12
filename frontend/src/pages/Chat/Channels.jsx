@@ -3,14 +3,17 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Button from 'react-bootstrap/esm/Button'
-import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 import { setCurrChannel } from '../../store/slices/globalSlice'
 import { openModal } from '../../store/slices/modalSlice'
 
-const Channels = ({ t, channels, currChannelId }) => {
+const Channels = ({ channels }) => {
   const dispatch = useDispatch()
+  const { t } = useTranslation()
+  const { currChannel } = useSelector(state => state.global)
 
-  const setBtnVariant = id => (id === currChannelId ? 'secondary' : '')
+  const setBtnVariant = id => (id === currChannel ? 'secondary' : '')
 
   const showModal = () => {
     dispatch(openModal({ mode: 'add' }))

@@ -3,11 +3,13 @@ import { clean } from 'leo-profanity'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 import { useAddChannelMutation } from '../../store/api/channelsApi'
+import { toastOptions } from '../../utils'
 
-const AddModal = ({
-  t, toast, toastOpt, schema, isOpen, hideModal,
-}) => {
+const AddModal = ({ schema, isOpen, hideModal }) => {
+  const { t } = useTranslation()
   const [addChannel, { isLoading }] = useAddChannelMutation()
   const {
     touched, values, errors, handleChange, handleSubmit,
@@ -22,7 +24,7 @@ const AddModal = ({
       resetForm()
       hideModal()
 
-      toast.success(t('toasts.add'), toastOpt)
+      toast.success(t('toasts.add'), toastOptions)
     },
   })
 

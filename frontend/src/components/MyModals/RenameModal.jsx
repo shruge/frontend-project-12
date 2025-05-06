@@ -4,12 +4,18 @@ import { useEffect, useRef } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import { useRenameChannelMutation } from '../../store/api/channelsApi'
+import { toastOptions } from '../../utils'
 
 const RenameModal = ({
-  t, toast, toastOpt, id, schema, isOpen, hideModal, channelName,
+  schema, isOpen, hideModal, channelName,
 }) => {
+  const id = useSelector(state => state.modal.channelId)
   const inputRef = useRef(null)
+  const { t } = useTranslation()
   const [renameChannel, { isLoading }] = useRenameChannelMutation()
   const {
     touched, values, errors, handleChange, handleSubmit,
@@ -24,7 +30,7 @@ const RenameModal = ({
       resetForm()
       hideModal()
 
-      toast.success(t('toasts.rename'), toastOpt)
+      toast.success(t('toasts.rename'), toastOptions)
     },
   })
 

@@ -5,35 +5,38 @@ import { ArrowRightSquare } from 'react-bootstrap-icons'
 import Button from 'react-bootstrap/esm/Button'
 import Form from 'react-bootstrap/esm/Form'
 import InputGroup from 'react-bootstrap/esm/InputGroup'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAddMessageMutation, useGetMessagesQuery } from '../../store/api/messagesApi'
 import { getChannelName, getMessagesCount } from '../../utils'
 
-const MessageForm = ({ t, channels, currChannelId }) => {
+const MessageForm = ({ channels }) => {
   const inpRef = useRef(null)
+  const { t } = useTranslation()
   const { data = [] } = useGetMessagesQuery()
   const { username } = useSelector(state => state.authData)
+  const { currChannel } = useSelector(state => state.global)
   const [addMessage] = useAddMessageMutation()
-  const messagesCount = getMessagesCount(currChannelId, data)
+  const messagesCount = getMessagesCount(currChannel, data)
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
       body: '',
     },
     onSubmit: async ({ body }, { resetForm }) => {
       resetForm()
-      await addMessage({ body: clean(body), username, channelId: currChannelId }).unwrap()
+      await addMessage({ body: clean(body), username, channelId: currChannel }).unwrap()
     },
   })
   const isDisabled = !values.body.trim().length
 
   useEffect(() => {
     inpRef.current?.focus()
-  }, [currChannelId])
+  }, [currChannel])
 
   const renderMessages = () => (
     <div id="messages-box" className="chat-messages overflow-auto px-5 ">
       {data.map(msg => (
-        msg.channelId !== currChannelId
+        msg.channelId !== currChannel
           ? null
           : (
               <div key={msg.id} className="text-break mb-2">
@@ -54,7 +57,7 @@ const MessageForm = ({ t, channels, currChannelId }) => {
           <b>
             #
             {' '}
-            {getChannelName(currChannelId, channels)}
+            {getChannelName(currChannel, channels)}
           </b>
         </p>
         <span className="text-muted">

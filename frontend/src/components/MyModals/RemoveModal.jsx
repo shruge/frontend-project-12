@@ -1,11 +1,15 @@
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import { useRemoveChannelMutation } from '../../store/api/channelsApi'
 import { useRemoveMessageMutation } from '../../store/api/messagesApi'
+import { toastOptions } from '../../utils'
 
-const RemoveModal = ({
-  t, toast, toastOpt, id, isOpen, hideModal,
-}) => {
+const RemoveModal = ({ isOpen, hideModal }) => {
+  const { t } = useTranslation()
+  const id = useSelector(state => state.modal.channelId)
   const [removeMessage] = useRemoveMessageMutation()
   const [removeChannel, { isLoading }] = useRemoveChannelMutation()
 
@@ -14,7 +18,7 @@ const RemoveModal = ({
     await removeChannel(id).unwrap()
     hideModal()
 
-    toast.success(t('toasts.remove'), toastOpt)
+    toast.success(t('toasts.remove'), toastOptions)
   }
 
   return (

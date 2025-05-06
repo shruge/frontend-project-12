@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import registrImg from '../../assets/registrImg.jpg'
 import { createUser, setAuthData, setAuthError } from '../../store/slices/authSlice'
-import { getRegistrSchema } from '../../utils'
+import getRegistrSchema from './schema'
 
 const RegisterForm = () => {
   const { t } = useTranslation()
@@ -30,8 +30,8 @@ const RegisterForm = () => {
     validationSchema: schema,
     onSubmit: ({ username, password }, { resetForm }) => {
       dispatch(createUser({ username, password })).unwrap()
-        .then(() => {
-          dispatch(setAuthData({ username, password }))
+        .then((res) => {
+          dispatch(setAuthData({ token: res.token, username: res.username }))
           navigation('/')
           resetForm()
         }).catch((err) => {

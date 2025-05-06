@@ -1,29 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
+import postData from '../../api/postData'
+import routes from '../../api/routes'
 
 const setLocalAuthData = ({ token, username }) => {
   localStorage.setItem('user', JSON.stringify({ token, username }))
-}
-
-const postData = async (url, reqBody) => {
-  const res = await axios.post(url, reqBody, {
-    headers: { 'Content-Type': 'application/json' },
-  })
-
-  const { data } = res
-
-  if (!Object.hasOwn(data, 'token')) {
-    throw new Error('serverError')
-  }
-
-  return data
 }
 
 export const getToken = createAsyncThunk(
   'authData/getToken',
   async (reqBody, { rejectWithValue }) => {
     try {
-      const data = await postData('/api/v1/login', reqBody)
+      const data = await postData(routes.logInLink(), reqBody)
 
       setLocalAuthData(data)
 
@@ -39,7 +26,7 @@ export const createUser = createAsyncThunk(
   'authData/createUser',
   async (reqBody, { rejectWithValue }) => {
     try {
-      const data = await postData('/api/v1/signup', reqBody)
+      const data = await postData(routes.signUpLink(), reqBody)
 
       setLocalAuthData(data)
 
@@ -52,13 +39,19 @@ export const createUser = createAsyncThunk(
   },
 )
 
+const defaultState = {
+  token: '',
+  error: null,
+  username: '',
+}
+const initialState = Object.assign(
+  defaultState,
+  JSON.parse(localStorage.getItem('user')),
+)
+
 const authSlice = createSlice({
   name: 'authData',
-  initialState: {
-    token: '',
-    username: '',
-    error: null,
-  },
+  initialState,
   reducers: {
     setAuthData(state, { payload }) {
       state.error = null

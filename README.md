@@ -22,5 +22,8 @@
 ```
 #### Запуск чата:
 ```
- make start-server
+ make build
+```
+```
+ make start
 ```
