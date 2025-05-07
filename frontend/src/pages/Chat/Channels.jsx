@@ -5,13 +5,12 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import Button from 'react-bootstrap/esm/Button'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrChannel } from '../../store/slices/globalSlice'
-import { openModal } from '../../store/slices/modalSlice'
+import { openModal, setCurrChannel } from '../../store/slices/uiSlice'
 
 const Channels = ({ channels }) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const { currChannel } = useSelector(state => state.global)
+  const { currChannel } = useSelector(state => state.ui)
 
   const setBtnVariant = id => (id === currChannel ? 'secondary' : '')
 

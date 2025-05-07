@@ -13,7 +13,7 @@ import { toastOptions } from '../../utils'
 const RenameModal = ({
   schema, isOpen, hideModal, channelName,
 }) => {
-  const id = useSelector(state => state.modal.channelId)
+  const id = useSelector(state => state.ui.modal.channelId)
   const inputRef = useRef(null)
   const { t } = useTranslation()
   const [renameChannel, { isLoading }] = useRenameChannelMutation()

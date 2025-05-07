@@ -15,7 +15,7 @@ const MessageForm = ({ channels }) => {
   const { t } = useTranslation()
   const { data = [] } = useGetMessagesQuery()
   const { username } = useSelector(state => state.authData)
-  const { currChannel } = useSelector(state => state.global)
+  const { currChannel } = useSelector(state => state.ui)
   const [addMessage] = useAddMessageMutation()
   const messagesCount = getMessagesCount(currChannel, data)
   const { values, handleSubmit, handleChange } = useFormik({

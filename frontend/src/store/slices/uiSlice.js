@@ -1,13 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { channelsApi } from '../api/channelsApi'
 
-const globalSlice = createSlice({
-  name: 'global',
+const uiSlice = createSlice({
+  name: 'ui',
   initialState: {
+    modal: {
+      mode: 'add',
+      channelId: '',
+      isOpen: false,
+    },
     currChannel: '1',
     defaultChannel: '1',
   },
   reducers: {
+    openModal(state, { payload }) {
+      state.modal.isOpen = true
+      state.modal.mode = payload.mode
+      state.modal.channelId = payload.channelId || ''
+    },
+    closeModal(state) {
+      state.modal.mode = 'add'
+      state.modal.isOpen = false
+      state.modal.channelId = ''
+    },
     setCurrChannel(state, { payload }) {
       state.currChannel = payload.id
     },
@@ -25,5 +40,5 @@ const globalSlice = createSlice({
   },
 })
 
-export const { setCurrChannel } = globalSlice.actions
-export default globalSlice.reducer
+export const { setCurrChannel, openModal, closeModal } = uiSlice.actions
+export default uiSlice.reducer

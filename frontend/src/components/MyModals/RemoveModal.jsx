@@ -9,7 +9,7 @@ import { toastOptions } from '../../utils'
 
 const RemoveModal = ({ isOpen, hideModal }) => {
   const { t } = useTranslation()
-  const id = useSelector(state => state.modal.channelId)
+  const id = useSelector(state => state.ui.modal.channelId)
   const [removeMessage] = useRemoveMessageMutation()
   const [removeChannel, { isLoading }] = useRemoveChannelMutation()
 

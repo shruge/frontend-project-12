@@ -9,7 +9,6 @@ const NavBar = () => {
   const dispatch = useDispatch()
 
   const logOut = () => {
-    localStorage.clear()
     dispatch(authReset())
   }
 

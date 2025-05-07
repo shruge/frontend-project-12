@@ -62,6 +62,8 @@ const authSlice = createSlice({
       state.token = ''
       state.error = null
       state.username = ''
+
+      localStorage.clear()
     },
     setAuthError(state, { payload }) {
       state.error = payload

@@ -2,14 +2,12 @@ import { configureStore } from '@reduxjs/toolkit'
 import { channelsApi } from './api/channelsApi'
 import { messagesApi } from './api/messagesApi'
 import authUserReducer from './slices/authSlice'
-import globalReducer from './slices/globalSlice'
-import modalReducer from './slices/modalSlice'
+import uiReducer from './slices/uiSlice'
 
 export default configureStore({
   reducer: {
+    ui: uiReducer,
     authData: authUserReducer,
-    global: globalReducer,
-    modal: modalReducer,
     [channelsApi.reducerPath]: channelsApi.reducer,
     [messagesApi.reducerPath]: messagesApi.reducer,
   },
